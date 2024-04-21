@@ -9,12 +9,21 @@ class Fight {
 
     public function fight() {
         while($this->areFightersAlive()) {
+            $this->startFight();
             //Decisión de diseño, puedo hacerlo desde fighter 1, o no.
             $fighter1_hits = $this->fighter1hits();
             if($fighter1_hits) $this->fighterLoseLife($this->fighter1, $this->fighter2);
             else $this->fighterLoseLife($this->fighter2,$this->fighter1);
+            $this->showPlayersLife();
         }
         $this->announceWinner();
+    }
+
+    private function startFight(): void {
+        echo "---------------------------------".PHP_EOL;
+        echo "Taday we have ".$this->fighter1->getName()." and ".$this->fighter2->getName()." fighting for glory!".PHP_EOL;
+        echo "Ready? Fight!".PHP_EOL;
+        echo "---------------------------------".PHP_EOL;
     }
 
     private function areFightersAlive(): bool {
@@ -40,6 +49,12 @@ class Fight {
         if($damage <= 0) $damage = 1;
         echo "WOw! ".$attacker->getName()." did hurt ".$damage." to ".$defender->getName().PHP_EOL;
         $defender->receiveDamage($damage);
+    }
+
+    private function showPlayersLife(): void {
+        echo $this->fighter1->getName()." has ".$this->fighter1->getLife()." life points left".PHP_EOL;
+        echo $this->fighter2->getName()." has ".$this->fighter2->getLife()." life points left".PHP_EOL;
+        echo "---------------------------------".PHP_EOL;
     }
 
     private function announceWinner(): void {
